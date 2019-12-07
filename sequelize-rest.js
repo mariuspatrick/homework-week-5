@@ -1,24 +1,12 @@
-const Sequelize = require("sequelize");
+const { Router } = require("express");
+const Movie = require("./model");
 
-const databaseUrl = "postgres://postgres:missme@localhost:5432/postgres";
+const router = new Router();
 
-const db = new Sequelize(databaseUrl);
-
-const Movie = db.define("movie", {
-  title: {
-    type: Sequelize.STRING
-  },
-  yearOfRelease: {
-    type: Sequelize.INTEGER
-  },
-  synopsis: {
-    type: Sequelize.STRING
-  }
+router.post("/movie", (req, res, next) => {
+  Movie.create(req.body)
+    .then(res)
+    .catch(err => next(err));
 });
 
-db.sync()
-  .then(() => console.log("Table created succesfully!"))
-  .catch(err => {
-    console.error("Unable to create tables, shutting down...", err);
-    process.exit(1);
-  });
+module.exports = router;
