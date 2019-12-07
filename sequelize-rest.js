@@ -29,4 +29,13 @@ router.delete("/movie/:id", (req, res, next) => {
     .catch(next);
 });
 
+router.get("/movie", (req, res, next) => {
+  const limit = Math.min(req.query.limit || 10, 500);
+  const offset = req.query.offset || 0;
+
+  Movie.findAndCountAll({ limit, offset })
+    .then(result => res.send({ data: result.row, total: result.count }))
+    .catch(error => next(error));
+});
+
 module.exports = router;
