@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 // app.get("/message", (req, res) => res.send("Hello"));
 
 app.post("/messages", (req, res, next) => {
-  if (req.body === {}) {
+  if (Object.getOwnPropertyNames(req.body).length === 0) {
     res.status(400).end();
   } else {
     console.log(req.body);
